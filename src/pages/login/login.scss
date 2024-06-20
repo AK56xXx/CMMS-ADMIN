@@ -1,32 +1,58 @@
+/* login.scss */
+
 .login {
-  height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-}
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+  font-family: 'Arial', sans-serif;
 
-.lContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  .lContainer {
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
 
-.lInput{
-  height: 30px;
-  padding: 10px;
-}
+  .lInput {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
 
-.lButton {
-  border: none;
-  padding: 10px 20px;
-  background-color: #0071c2;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 5px;
-}
+  .lButton {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background: #5151E5;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
 
-.lButton:disabled{
-  background-color: #0071c28c;
-  cursor: not-allowed;
+    &:hover {
+      background: #3b3bb3;
+    }
+
+    &:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+  }
+
+  .error {
+    color: #e74c3c;
+    margin-top: 10px;
+  }
 }
