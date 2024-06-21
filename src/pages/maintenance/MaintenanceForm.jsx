@@ -99,17 +99,19 @@ const MaintenanceForm = () => {
     console.log("Updated maintenance state:", maintenance); // Add this log
   };
 
+
   const handleSubmit = useCallback(async (e) => {
+
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
       const maintenanceData = {
         ...maintenance,
-        technician: {id: parseInt(maintenance.technicianId)},
+        technician: {id: parseInt(maintenance.technicianId)},   // we need to do it like this to be able to read the id, 
+        device: {id: parseInt(maintenance.deviceId)},           //technician,client and device are a nested object (*)
         client: {id: parseInt(maintenance.clientId)},
-        device: {id: parseInt(maintenance.deviceId)},
       };
-      console.log("Data to be submitted:", maintenanceData); // Add this log
+      console.log("Data to be submitted:", maintenanceData); 
       await axios.post(
         'http://localhost:8081/api/v1/maintenance/create',
         maintenanceData,
