@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <div className="navbar-brand">Your Brand</div>
+        <div className="navbar-brand">Pura Overview</div>
         <div className="collapse navbar-collapse">
           <div className="navbar-nav ms-auto">
             <div className="nav-item search">

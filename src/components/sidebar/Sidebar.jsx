@@ -1,15 +1,17 @@
 import React from "react";
 import "./sidebar.scss";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import TripOriginIcon from '@mui/icons-material/TripOrigin';
-import MemoryIcon from '@mui/icons-material/Memory';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import BugReportIcon from '@mui/icons-material/BugReport';
-import BuildIcon from '@mui/icons-material/Build';
+import {
+  Dashboard as DashboardIcon,
+  PersonOutline as PersonOutlineIcon,
+  ExitToApp as ExitToAppIcon,
+  TripOrigin as TripOriginIcon,
+  Memory as MemoryIcon,
+  ThumbUpAlt as ThumbUpAltIcon,
+  Campaign as CampaignIcon,
+  ConfirmationNumber as ConfirmationNumberIcon,
+  BugReport as BugReportIcon,
+  Build as BuildIcon,
+} from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -17,118 +19,110 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      // Perform logout API call
       await fetch("http://localhost:8081/logout", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          // Add any additional headers if required
         },
-        credentials: "include", // Important for cookies/session
+        credentials: "include",
       });
 
-      // Clear localStorage or sessionStorage as needed
-      localStorage.removeItem('token'); // Remove token from localStorage
-      localStorage.removeItem('user');
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
 
-      // Navigate to login page or any other desired page
       navigate("/login");
     } catch (error) {
       console.error("Logout failed", error);
-      // Handle logout failure if needed
     }
   };
 
   return (
     <div className="sidebar">
-      <div className="top">
-        <Link to="/home" style={{ textDecoration: "none" }}>
-          <span className="logo">Admin Panel</span>
+      <div className="sidebar-top">
+        <Link to="/home" className="text-decoration-none">
+          <span className="sidebar-logo">Admin Panel</span>
         </Link>
       </div>
       <hr />
-      <div className="center">
-        <ul>
-          <p className="title">MAIN</p>
-          <Link to="/home" style={{ textDecoration: "none" }}>
-            <li>
-              <DashboardIcon className="icon" />
-              <span>Calendar</span>
-            </li>
-          </Link>
-
-          <Link to="/pending" style={{ textDecoration: "none" }}>
-            <li>
-              <DashboardIcon className="icon" />
-              <span>Pending tickets</span>
-            </li>
-          </Link>
-
-          <Link to="/inprogress" style={{ textDecoration: "none" }}>
-            <li>
-              <DashboardIcon className="icon" />
-              <span>In progress (MNT)</span>
-            </li>
-          </Link>
-
-          <p className="title">Management</p>
-          <Link to="/user" style={{ textDecoration: "none" }}>
-            <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Users</span>
-            </li>
-          </Link>
-          <Link to="/maintenance" style={{ textDecoration: "none" }}>
-            <li>
-              <BuildIcon className="icon" />
-              <span>Maintenance</span>
-            </li>
-          </Link>
-          <Link to="/ticket" style={{ textDecoration: "none" }}>
-            <li>
-              <ConfirmationNumberIcon className="icon" />
-              <span>Tickets</span>
-            </li>
-          </Link>
-
-          <Link to="/device" style={{ textDecoration: "none" }}>
-            <li>
-              <MemoryIcon className="icon" />
-              <span>Devices</span>
-            </li>
-          </Link>
-
-          <Link to="/model" style={{ textDecoration: "none" }}>
-            <li>
-              <TripOriginIcon className="icon" />
-              <span>Models</span>
-            </li>
-          </Link>
-
-          <Link to="/problem" style={{ textDecoration: "none" }}>
-            <li>
-              <BugReportIcon className="icon" />
-              <span>Problems</span>
-            </li>
-          </Link>
-
-          <Link to="/feedback" style={{ textDecoration: "none" }}>
-            <li>
-              <ThumbUpAltIcon className="icon" />
-              <span>Feedbacks</span>
-            </li>
-          </Link>
-
-          <Link to="/announcement" style={{ textDecoration: "none" }}>
-            <li>
-              <CampaignIcon className="icon" />
-              <span>Announcement</span>
-            </li>
-          </Link>
-
-          <li onClick={handleLogout} style={{ cursor: "pointer" }}>
-            <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+      <div className="sidebar-center">
+        <ul className="nav flex-column">
+          <li className="nav-item">
+            <p className="nav-link sidebar-title">MAIN</p>
+          </li>
+          <li className="nav-item">
+            <Link to="/home" className="nav-link d-flex align-items-center">
+              <DashboardIcon className="sidebar-icon" />
+              <span className="ms-2">Calendar</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/pending" className="nav-link d-flex align-items-center">
+              <DashboardIcon className="sidebar-icon" />
+              <span className="ms-2">Pending tickets</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/inprogress" className="nav-link d-flex align-items-center">
+              <DashboardIcon className="sidebar-icon" />
+              <span className="ms-2">In progress (MNT)</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <p className="nav-link sidebar-title">Management</p>
+          </li>
+          <li className="nav-item">
+            <Link to="/user" className="nav-link d-flex align-items-center">
+              <PersonOutlineIcon className="sidebar-icon" />
+              <span className="ms-2">Users</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/maintenance" className="nav-link d-flex align-items-center">
+              <BuildIcon className="sidebar-icon" />
+              <span className="ms-2">Maintenance</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/ticket" className="nav-link d-flex align-items-center">
+              <ConfirmationNumberIcon className="sidebar-icon" />
+              <span className="ms-2">Tickets</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/device" className="nav-link d-flex align-items-center">
+              <MemoryIcon className="sidebar-icon" />
+              <span className="ms-2">Devices</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/model" className="nav-link d-flex align-items-center">
+              <TripOriginIcon className="sidebar-icon" />
+              <span className="ms-2">Models</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/problem" className="nav-link d-flex align-items-center">
+              <BugReportIcon className="sidebar-icon" />
+              <span className="ms-2">Problems</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/feedback" className="nav-link d-flex align-items-center">
+              <ThumbUpAltIcon className="sidebar-icon" />
+              <span className="ms-2">Feedbacks</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/announcement" className="nav-link d-flex align-items-center">
+              <CampaignIcon className="sidebar-icon" />
+              <span className="ms-2">Announcement</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <div onClick={handleLogout} className="nav-link d-flex align-items-center" style={{ cursor: "pointer" }}>
+              <ExitToAppIcon className="sidebar-icon" />
+              <span className="ms-2">Logout</span>
+            </div>
           </li>
         </ul>
       </div>

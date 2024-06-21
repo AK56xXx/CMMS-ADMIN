@@ -33,6 +33,7 @@ const Home = () => {
         technician: `${event.technician.fname} ${event.technician.lname}`,
         client: `${event.client.fname} ${event.client.lname}`,
         description: event.description,
+        status: event.status
       }));
 
       setEvents(fetchedEvents);
@@ -63,6 +64,10 @@ const Home = () => {
       return (moment.utc(start).format('DD/MM/YYYY') + ' - ' + moment.utc(end).format('DD/MM/YYYY') );
     }
   };
+
+
+
+
 
   return (
     <div className="home">
@@ -95,6 +100,9 @@ const Home = () => {
               <p><strong>Start:</strong> {selectedEvent.start.toString()}</p>
               <p><strong>End:</strong> {selectedEvent.end.toString()}</p>
               <p><strong>Description:</strong> {selectedEvent.description}</p>
+              <p><strong>Status:</strong> {selectedEvent.status}</p>
+          
+
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={closeModal}>
