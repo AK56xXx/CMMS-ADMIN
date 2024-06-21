@@ -77,7 +77,7 @@ function App() {
           />
 
            <Route path="/maintenance/create" element={<MaintenanceForm />} />
-           <Route path="/maintenance/edit/:id" element={<MaintenanceForm />} />
+           <Route path="/maintenance/create/:ticketId" element={<MaintenanceForm />} />
 
           <Route 
             path="/ticket" 

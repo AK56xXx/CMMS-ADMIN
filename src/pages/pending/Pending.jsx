@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import "../../home.scss";
-//import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Pending = () => {
   const [tickets, setTickets] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -27,9 +28,7 @@ const Pending = () => {
   }, []);
 
   const handleCreateMaintenance = (ticket) => {
-    // Handle the "Create maintenance" button click
-    console.log('Create maintenance for:', ticket);
-    // Add your logic here
+    navigate(`/maintenance/create/${ticket.id}`); // Navigate to MaintenanceForm with ticketId
   };
 
   return (

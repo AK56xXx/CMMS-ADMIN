@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -6,7 +6,7 @@ import Navbar from "../../components/navbar/Navbar";
 import "../../home.scss";
 
 const MaintenanceForm = () => {
-  const { id } = useParams();
+  const { ticketId } = useParams(); // Use useParams to get the ticketId
   const navigate = useNavigate();
 
   const [maintenance, setMaintenance] = useState({
@@ -55,7 +55,36 @@ const MaintenanceForm = () => {
     fetchClientsAndTechnicians();
   }, []);
 
-  const fetchDevices = async (clientId) => {
+  useEffect(() => {
+    if (ticketId) {
+      // Fetch ticket data and set maintenance state if ticketId is provided
+      const fetchTicketData = async () => {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await axios.get(`http://localhost:8081/api/v1/ticket/${ticketId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const ticket = response.data;
+          setMaintenance((prev) => ({
+            ...prev,
+            title: `Maintenance for ${ticket.issue}`,
+            clientId: ticket.client.id,
+            deviceId: ticket.device.id,
+            ticket: {id: ticket.id}
+          }));
+          fetchDevices(ticket.client.id, ticket.device.id);
+        } catch (error) {
+          console.error("Error fetching ticket data:", error);
+        }
+      };
+
+      fetchTicketData();
+    }
+  }, [ticketId]);
+
+  const fetchDevices = async (clientId, selectedDeviceId = null) => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
@@ -68,6 +97,9 @@ const MaintenanceForm = () => {
       );
       setDevices(response.data);
       setIsDeviceDropdownDisabled(false);
+      if (selectedDeviceId) {
+        setMaintenance((prev) => ({ ...prev, deviceId: selectedDeviceId }));
+      }
     } catch (error) {
       console.error("Error fetching devices:", error);
     }
@@ -81,35 +113,33 @@ const MaintenanceForm = () => {
     const { name, value } = e.target;
 
     if (name === 'technicianId') {
-      setMaintenance((prev) => ({...prev, technicianId: parseInt(value) }));
+      setMaintenance((prev) => ({ ...prev, technicianId: parseInt(value) }));
     } else if (name === 'clientId') {
-      setMaintenance((prev) => ({...prev, clientId: parseInt(value) }));
-      setMaintenance((prev) => ({...prev, deviceId: '' }));
+      setMaintenance((prev) => ({ ...prev, clientId: parseInt(value) }));
+      setMaintenance((prev) => ({ ...prev, deviceId: '' }));
       setIsDeviceDropdownDisabled(true);
       fetchDevices(value);
     } else if (name === 'deviceId') {
-      setMaintenance((prev) => ({...prev, deviceId: parseInt(value) }));
-    } else if (name ==='msdate') {
+      setMaintenance((prev) => ({ ...prev, deviceId: parseInt(value) }));
+    } else if (name === 'msdate') {
       const selectedDate = new Date(value);
       const formattedDate = `${selectedDate.getFullYear()}-${padZero(selectedDate.getMonth() + 1)}-${padZero(selectedDate.getDate())}T00:00:00`;
-      setMaintenance((prev) => ({...prev, mdate: formattedDate, [name]: value }));
+      setMaintenance((prev) => ({ ...prev, mdate: formattedDate, [name]: value }));
     } else {
-      setMaintenance((prev) => ({...prev, [name]: value }));
+      setMaintenance((prev) => ({ ...prev, [name]: value }));
     }
     console.log("Updated maintenance state:", maintenance); // Add this log
   };
 
-
   const handleSubmit = useCallback(async (e) => {
-
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
       const maintenanceData = {
         ...maintenance,
-        technician: {id: parseInt(maintenance.technicianId)},   // we need to do it like this to be able to read the id, 
-        device: {id: parseInt(maintenance.deviceId)},           //technician,client and device are a nested object (*)
-        client: {id: parseInt(maintenance.clientId)},
+        technician: { id: parseInt(maintenance.technicianId) },   // we need to do it like this to be able to read the id, 
+        device: { id: parseInt(maintenance.deviceId) },           // technician, client and device are a nested object (*)
+        client: { id: parseInt(maintenance.clientId) },
       };
       console.log("Data to be submitted:", maintenanceData); 
       await axios.post(
@@ -121,11 +151,37 @@ const MaintenanceForm = () => {
           },
         }
       );
+
+      if (ticketId) {
+        // Fetch the existing ticket data
+        const response = await axios.get(`http://localhost:8081/api/v1/ticket/${ticketId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const existingTicket = response.data;
+
+        // Update the ticket status to "CLOSED"
+        await axios.put(
+          `http://localhost:8081/api/v1/ticket/update`,
+          {
+            ...existingTicket,
+            status: "CLOSED",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+
       navigate('/maintenance');
     } catch (error) {
       console.error('Error saving maintenance:', error);
     }
-  }, [maintenance, navigate]);
+  }, [maintenance, navigate, ticketId]);
 
   return (
     <div className="home">
