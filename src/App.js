@@ -12,9 +12,9 @@ import Model from "./pages/model/Model";
 import Problem from "./pages/problem/Problem";
 import Feedback from "./pages/feedback/Feedback";
 import Announcement from "./pages/announcement/Announcement";
-import './App.css';
 import Page404 from "./pages/notfound/Page404";
-
+import MaintenanceForm from "./pages/maintenance/MaintenanceForm";
+import './App.css';
 function ProtectedRoute({ children }) {
   const isAuthenticated = !!localStorage.getItem('token'); // Adjust the logic as per your auth mechanism
 
@@ -75,6 +75,10 @@ function App() {
               </ProtectedRoute>
             } 
           />
+
+           <Route path="/maintenance/create" element={<MaintenanceForm />} />
+           <Route path="/maintenance/edit/:id" element={<MaintenanceForm />} />
+
           <Route 
             path="/ticket" 
             element={

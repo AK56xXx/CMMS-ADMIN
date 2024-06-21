@@ -32,6 +32,7 @@ const Home = () => {
         end: new Date(event.endAt),
         technician: `${event.technician.fname} ${event.technician.lname}`,
         client: `${event.client.fname} ${event.client.lname}`,
+        device: event.device.name,
         description: event.description,
         status: event.status
       }));
@@ -95,14 +96,14 @@ const Home = () => {
               <Modal.Title>{selectedEvent.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+              <p><strong>Device:</strong> {selectedEvent.device}</p>
               <p><strong>Technician:</strong> {selectedEvent.technician}</p>
               <p><strong>Client:</strong> {selectedEvent.client}</p>
               <p><strong>Start:</strong> {selectedEvent.start.toString()}</p>
               <p><strong>End:</strong> {selectedEvent.end.toString()}</p>
               <p><strong>Description:</strong> {selectedEvent.description}</p>
               <p><strong>Status:</strong> {selectedEvent.status}</p>
-          
-
+        
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={closeModal}>
