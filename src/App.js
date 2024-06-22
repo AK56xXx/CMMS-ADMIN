@@ -14,6 +14,8 @@ import Feedback from "./pages/feedback/Feedback";
 import Announcement from "./pages/announcement/Announcement";
 import Page404 from "./pages/notfound/Page404";
 import MaintenanceForm from "./pages/maintenance/MaintenanceForm";
+import UserForm from "./pages/user/UserForm";
+import TicketForm from "./pages/ticket/TicketForm";
 import './App.css';
 function ProtectedRoute({ children }) {
   const isAuthenticated = !!localStorage.getItem('token'); // Adjust the logic as per your auth mechanism
@@ -67,6 +69,13 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          <Route path="/user/create" element={<UserForm />} />
+          <Route path="/user/edit/:id" element={<UserForm />} />
+
+
+
+
+
           <Route 
             path="/maintenance" 
             element={
@@ -87,6 +96,10 @@ function App() {
               </ProtectedRoute>
             } 
           />
+
+        <Route path="/ticket/create" element={<TicketForm />} />
+        <Route path="/ticket/edit/:id" element={<TicketForm />} />
+
           <Route 
             path="/device" 
             element={
