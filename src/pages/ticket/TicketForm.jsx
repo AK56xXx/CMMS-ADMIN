@@ -8,39 +8,69 @@ import "../../home.scss";
 const TicketForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [ticket, setTicket] = useState({
     issue: "",
     other: "",
     status: "OPEN",
-    clientId: "",
-    deviceId: "",
+    device: {},
+    client: {},
   });
-
   const [clients, setClients] = useState([]);
   const [devices, setDevices] = useState([]);
-  const [isDeviceDropdownDisabled, setIsDeviceDropdownDisabled] = useState(true);
+  const [problems, setProblems] = useState([]);
 
   useEffect(() => {
     const fetchClients = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await axios.get(
-          "http://localhost:8081/api/v1/users/clients",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:8081/api/v1/users/clients", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setClients(response.data);
       } catch (error) {
         console.error("Error fetching clients:", error);
       }
     };
 
+    const fetchProblems = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get("http://localhost:8081/api/v1/problem", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProblems(response.data);
+      } catch (error) {
+        console.error("Error fetching problems:", error);
+      }
+    };
+
     fetchClients();
+    fetchProblems();
   }, []);
+
+  useEffect(() => {
+    if (ticket.client.id) {
+      const fetchDevices = async () => {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await axios.get(`http://localhost:8081/api/v1/device/client/${ticket.client.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setDevices(response.data);
+        } catch (error) {
+          console.error("Error fetching devices:", error);
+        }
+      };
+
+      fetchDevices();
+    }
+  }, [ticket.client.id]);
 
   useEffect(() => {
     if (id) {
@@ -52,17 +82,9 @@ const TicketForm = () => {
               Authorization: `Bearer ${token}`,
             },
           });
-          const { issue, other, status, client, device } = response.data;
-          setTicket({
-            issue,
-            other,
-            status,
-            clientId: client.id,
-            deviceId: device.id,
-          });
-          fetchDevices(client.id);
+          setTicket(response.data);
         } catch (error) {
-          console.error('Error fetching ticket:', error);
+          console.error("Error fetching ticket:", error);
         }
       };
 
@@ -70,72 +92,33 @@ const TicketForm = () => {
     }
   }, [id]);
 
-  const fetchDevices = async (clientId) => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.get(
-        `http://localhost:8081/api/v1/device/client/${clientId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setDevices(response.data);
-      setIsDeviceDropdownDisabled(false);
-    } catch (error) {
-      console.error("Error fetching devices:", error);
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'clientId') {
-      setTicket((prev) => ({ ...prev, clientId: value }));
-      fetchDevices(value);
-      setIsDeviceDropdownDisabled(false);
-    } else {
-      setTicket((prev) => ({ ...prev, [name]: value }));
-    }
+    setTicket((prevTicket) => ({ ...prevTicket, [name]: value }));
   };
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    const ticketData = {
-      id: id,
-      ...ticket,
-      client: { id: parseInt(ticket.clientId) },
-      device: { id: parseInt(ticket.deviceId) },
-    };
-
+    const token = localStorage.getItem("token");
     try {
       if (id) {
-        await axios.put(
-          `http://localhost:8081/api/v1/ticket/update`,
-          ticketData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        await axios.put(`http://localhost:8081/api/v1/ticket/update`, ticket, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       } else {
-        await axios.post(
-          'http://localhost:8081/api/v1/ticket/create',
-          ticketData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        await axios.put("http://localhost:8081/api/v1/ticket/add", ticket, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       }
-      navigate('/ticket');
+      navigate("/ticket");
     } catch (error) {
-      console.error('Error saving ticket:', error);
+      console.error("Error saving ticket:", error);
     }
-  }, [ticket, id, navigate]);
+  }, [ticket, navigate, id]);
 
   return (
     <div className="home">
@@ -143,18 +126,24 @@ const TicketForm = () => {
       <div className="homeContainer">
         <Navbar />
         <div className="container mt-4">
-          <h2>{id ? "Edit Ticket" : "Create Ticket"}</h2>
+          <h2>{id ? "Edit Ticket" : "Add Ticket"}</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label className="form-label">Issue</label>
-              <input
-                type="text"
+              <select
                 className="form-control"
                 name="issue"
                 value={ticket.issue}
                 onChange={handleChange}
                 required
-              />
+              >
+                <option value="">Select an Issue</option>
+                {problems.map((problem) => (
+                  <option key={problem.id} value={problem.name}>
+                    {problem.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="mb-3">
               <label className="form-label">Other</label>
@@ -164,19 +153,21 @@ const TicketForm = () => {
                 name="other"
                 value={ticket.other}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="mb-3">
               <label className="form-label">Client</label>
               <select
-                className="form-select"
-                name="clientId"
-                value={ticket.clientId}
-                onChange={handleChange}
+                className="form-control"
+                name="client"
+                value={ticket.client.id || ""}
+                onChange={(e) => {
+                  const selectedClient = clients.find((client) => client.id === parseInt(e.target.value));
+                  setTicket((prevTicket) => ({ ...prevTicket, client: selectedClient }));
+                }}
                 required
               >
-                <option value="">Select Client</option>
+                <option value="">Select a Client</option>
                 {clients.map((client) => (
                   <option key={client.id} value={client.id}>
                     {client.fname} {client.lname}
@@ -187,14 +178,16 @@ const TicketForm = () => {
             <div className="mb-3">
               <label className="form-label">Device</label>
               <select
-                className="form-select"
-                name="deviceId"
-                value={ticket.deviceId}
-                onChange={handleChange}
-                disabled={isDeviceDropdownDisabled}
+                className="form-control"
+                name="device"
+                value={ticket.device.id || ""}
+                onChange={(e) => {
+                  const selectedDevice = devices.find((device) => device.id === parseInt(e.target.value));
+                  setTicket((prevTicket) => ({ ...prevTicket, device: selectedDevice }));
+                }}
                 required
               >
-                <option value="">Select Device</option>
+                <option value="">Select a Device</option>
                 {devices.map((device) => (
                   <option key={device.id} value={device.id}>
                     {device.name}
@@ -205,7 +198,7 @@ const TicketForm = () => {
             <div className="mb-3">
               <label className="form-label">Status</label>
               <select
-                className="form-select"
+                className="form-control"
                 name="status"
                 value={ticket.status}
                 onChange={handleChange}
