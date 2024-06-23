@@ -52,7 +52,7 @@ const Model = () => {
             className="btn btn-primary mb-3"
             onClick={() => navigate("/models/new")}
           >
-            Add Model
+            Create Model
           </button>
           <table className="table table-striped">
             <thead>
@@ -73,7 +73,7 @@ const Model = () => {
                   <td>{model.manufacturer}</td>
                   <td>
                     <button
-                      className="btn btn-primary me-2"
+                      className="btn btn-success me-2"
                       onClick={() => navigate(`/models/edit/${model.id}`)}
                     >
                       Edit

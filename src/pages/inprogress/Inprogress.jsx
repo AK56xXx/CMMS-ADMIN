@@ -75,10 +75,10 @@ const Inprogress = () => {
                   <td>{maintenance.status}</td>
                   <td>
                     <button 
-                      className="btn btn-primary" 
+                      className="btn btn-danger" 
                       onClick={() => handleClose(maintenance)}
                     >
-                      Close
+                      Close Maintenance
                     </button>
                   </td>
                 </tr>

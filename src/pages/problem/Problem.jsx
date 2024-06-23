@@ -52,7 +52,7 @@ const Problem = () => {
             className="btn btn-primary mb-3"
             onClick={() => navigate("/problems/new")}
           >
-            Add Problem
+            Create Problem
           </button>
           <table className="table table-striped">
             <thead>
@@ -69,7 +69,7 @@ const Problem = () => {
                   <td>{problem.description}</td>
                   <td>
                     <button
-                      className="btn btn-primary me-2"
+                      className="btn btn-success me-2"
                       onClick={() => navigate(`/problems/edit/${problem.id}`)}
                     >
                       Edit

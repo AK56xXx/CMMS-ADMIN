@@ -75,7 +75,7 @@ const Ticket = () => {
                   <td>{ticket.device.name}</td>
                   <td>
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-success"
                       onClick={() => navigate(`/ticket/edit/${ticket.id}`)}
                     >
                       Edit

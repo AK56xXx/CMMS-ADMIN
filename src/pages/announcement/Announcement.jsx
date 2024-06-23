@@ -52,7 +52,7 @@ const Announcement = () => {
             className="btn btn-primary mb-3"
             onClick={() => navigate("/announcements/new")}
           >
-            Add Announcement
+            Create Announcement
           </button>
           <table className="table table-striped">
             <thead>
@@ -71,7 +71,7 @@ const Announcement = () => {
                   <td>{announcement.admin.fname + " " + announcement.admin.lname}</td>
                   <td>
                     <button
-                      className="btn btn-primary me-2"
+                      className="btn btn-success me-2"
                       onClick={() => navigate(`/announcements/edit/${announcement.id}`)}
                     >
                       Edit

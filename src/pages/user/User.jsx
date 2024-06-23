@@ -75,7 +75,7 @@ const User = () => {
                   <td>{user.role}</td>
                   <td>
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-success"
                       onClick={() => navigate(`/user/edit/${user.id}`)}
                     >
                       Edit

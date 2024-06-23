@@ -62,7 +62,7 @@ const Pending = () => {
                       className="btn btn-primary" 
                       onClick={() => handleCreateMaintenance(ticket)}
                     >
-                      Create maintenance
+                      Add maintenance
                     </button>
                   </td>
                 </tr>

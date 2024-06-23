@@ -69,7 +69,7 @@ const Device = () => {
                   <td>{device.client.fname} {device.client.lname}</td>
                   <td>{device.model.name}</td>
                   <td>
-                    <Link to={`/devices/edit/${device.id}`} className="btn btn-secondary me-2">Edit</Link>
+                    <Link to={`/devices/edit/${device.id}`} className="btn btn-success me-2">Edit</Link>
                     <button 
                       className="btn btn-danger" 
                       onClick={() => handleDelete(device.id)}
