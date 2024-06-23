@@ -19,6 +19,7 @@ import TicketForm from "./pages/ticket/TicketForm";
 import DeviceForm from "./pages/device/DeviceForm";
 import ModelForm from "./pages/model/ModelForm";
 import ProblemForm from "./pages/problem/ProblemForm";
+import AnnouncementForm from "./pages/announcement/AnnouncementForm";
 import './App.css';
 function ProtectedRoute({ children }) {
   const isAuthenticated = !!localStorage.getItem('token'); // Adjust the logic as per your auth mechanism
@@ -157,6 +158,8 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          <Route path="/announcements/new" element={<AnnouncementForm />} />
+          <Route path="/announcements/edit/:id" element={<AnnouncementForm />} />
 
           {/* Fallback route for 404 */}
           <Route path="*" element={<Page404 />} />
