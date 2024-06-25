@@ -4,6 +4,7 @@ import axios from "axios";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import "../../home.scss";
+import Swal from "sweetalert2";
 
 const MaintenanceForm = () => {
   const { ticketId } = useParams(); // Use useParams to get the ticketId
@@ -15,7 +16,7 @@ const MaintenanceForm = () => {
     clientId: "",
     deviceId: "",
     msdate: "",
-    userResponse: "NONE",
+    userResponse: "APPROVED", //none
     status: "IN_PROGRESS",
   });
 
@@ -179,6 +180,11 @@ const MaintenanceForm = () => {
 
       navigate('/maintenance');
     } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Not Available',
+        text: 'The selected technician is not available or busy. Please select another one.',
+      })
       console.error('Error saving maintenance:', error);
     }
   }, [maintenance, navigate, ticketId]);
