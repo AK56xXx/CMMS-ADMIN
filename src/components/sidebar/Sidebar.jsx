@@ -68,6 +68,12 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to="/feedback" className="nav-link d-flex align-items-center">
+              <ThumbUpAltIcon className="sidebar-icon" />
+              <span className="ms-2">Feedbacks</span>
+            </Link>
+          </li>
+          <li className="nav-item">
             <p className="nav-link sidebar-title">Management</p>
           </li>
           <li className="nav-item">
@@ -106,12 +112,7 @@ const Sidebar = () => {
               <span className="ms-2">Problems</span>
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/feedback" className="nav-link d-flex align-items-center">
-              <ThumbUpAltIcon className="sidebar-icon" />
-              <span className="ms-2">Feedbacks</span>
-            </Link>
-          </li>
+         
           <li className="nav-item">
             <Link to="/announcement" className="nav-link d-flex align-items-center">
               <CampaignIcon className="sidebar-icon" />

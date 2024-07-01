@@ -4,6 +4,7 @@ import axios from "axios";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import "../../home.scss";
+import Swal from "sweetalert2";
 
 const UserForm = () => {
   const { id } = useParams();
@@ -72,6 +73,12 @@ const UserForm = () => {
       }
       navigate('/user');
     } catch (error) {
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.response.data,
+      })
       console.error('Error saving user:', error);
     }
   }, [user, id, navigate]);
