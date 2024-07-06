@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# React Admin Dashboard
+# Computerized Maintenance Management System (CMMS)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+CMMS is a system that offer the customers a wide collections of functionalities to help them keep an eye on their devices by reviewing statistics, scheduling maintenance sessions or reporting issues.
 
-## Available Scripts
+Core functionalities:
+* Maintenance scheduling
+* Issues reporting
+* Customer Feedback
 
-In the project directory, you can run:
+## Actors Identification
+The system has two actors:
+* Administrator
+* Client
 
-### `npm start`
+# Specification of Functional Requirements
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The main features of our system are:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Client
 
-### `npm test`
+- **Manage account**: The client can manage their account by editing profile information, updating their profile picture, or changing their account password.
+- **Manage maintenance**: The client can add or reject a maintenance request. Maintenance refers to a scheduled date for a repair session of a specific device.
+- **Manage ticket**: The client can create, edit, or cancel an open ticket. Tickets are used to report a problem with a specific device.
+- **Manage feedback**: The client can add feedback to an already closed maintenance session.
+- **Receive notification**: The client receives notifications for their end-of-service (EOS) devices.
+- **Review device information**: The client can check their device information and statistics.
+- **View announcements**: The client can view announcements posted by the company.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Admin
 
-### `npm run build`
+The admin have total control over the system
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Specification of Non-Functional Requirements
+### Security
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The application must be secure and immune to malicious actions by reducing vulnerability risks. Our application offers:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Encryption
+- JWT + Authentication
+- Authorization levels
 
-### `npm run eject`
+Powered by Spring Security.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Maintainability
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+As the system evolves, it should be easy to maintain and update its communication capabilities. This includes modular design, clear documentation, and well-defined interfaces to facilitate future changes and enhancements.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Portability
+By using React Native for our client side application this allow us to run our codebase written in JavaScript to target multi platforms like Android, IOS, Web and perform as a native like level application and behave the same across all.
